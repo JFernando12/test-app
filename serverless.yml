@@ -1,0 +1,24 @@
+org: jfernando12
+app: test-app
+service: test-app
+frameworkVersion: '3'
+
+custom:
+  myStage: ${opt:stage, self:provider.stage}
+  myEnvironment:
+    MESSAGE:
+      prod: "This is production environment"
+      dev: "This is development environment"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
